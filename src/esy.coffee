@@ -1,7 +1,7 @@
 class Esy
 
   constructor: () ->
-    
+
     @file = new Esy.file
     @ui   = new Esy.ui
     @http = new Esy.http
@@ -11,23 +11,19 @@ class Esy
     for property in [1..obj.numProperties]
       @write property
 
-  write: (text) ->
-    $.write "\n#{text}"
+  log = (str) ->
+    $.write "#{str?.toString()}\n"
 
-  dump: (obj) ->
-    $.write """
-
-    DUMPING
-    -------
-    """
-
-    for propertyName, propertyValue of obj
-      $.write "#{propertyName}: #{propertyValue?.toString()} \n"    
+  dump = (obj) ->
+    if obj
+      $.write "\n Dumping: \n --- \n"
+      for propertyName, propertyValue of obj
+        log "#{propertyName}: #{propertyValue?.toString()} \n"
 
 
 class Esy.file
 
-  remove: (filepath) ->
+  delete: (filepath) ->
     file = File filepath
     file.remove()
 
@@ -44,7 +40,7 @@ class Esy.file
     content = file.read()
     file.close()
     return content
-    
+
 
 class Esy.ui
 
@@ -67,14 +63,14 @@ class Esy.http
     reply = new String()
     conn = new Socket()
     typeMatch = url.match(/(\.)(\w{3,4}\b)/g)
-    
+
     if conn.open(domain, "binary")
       conn.write call
       reply = conn.read(9999999999)
       conn.close()
     else
       reply = ""
-    
+
     return reply.substr(reply.indexOf("\r\n\r\n") + 4)
 
 String::capitalize = ->
