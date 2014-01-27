@@ -13,20 +13,32 @@ class Esy
       @log property
 
   log: (str) ->
-    $.write "#{str?.toString()}\n"
+    try $.write "#{str?.toString()}\n"
 
-  dump: (obj) ->
+  dump: (obj, prefix = true) ->
     if obj
-      $.write "\n Dumping: \n --- \n"
+      $.write "\n Dumping: \n --- \n" if prefix
       for propertyName, propertyValue of obj
-        log "#{propertyName}: #{propertyValue?.toString()} \n"
+        if typeof propertyValue is "object"
+          @dump propertyValue, false
+        else
+          @log "#{propertyName}: #{propertyValue?.toString()} \n"
 
 
 class Esy.file
 
+  root: (File($.fileName).parent).path
+
   delete: (filepath) ->
     file = File filepath
     file.remove()
+
+  append: (filepath, content) ->
+    file = File filepath
+    file.open "a"
+    file.write content
+    file.close()
+    return file
 
   create: (filepath, content = "") ->
     file = new File filepath
@@ -36,14 +48,15 @@ class Esy.file
     return file
 
   read: (filepath) ->
-    file = new File filepath
+    file = File filepath
     file.open "r"
     content = file.read()
     file.close()
     return content
 
   filename: (filepath) ->
-    return filepath.substr filepath.lastIndexOf('/') + 1
+    filename = filepath.substr filepath.lastIndexOf('/') + 1
+    return filename
 
 class Esy.ui
 
@@ -90,9 +103,5 @@ class Esy.http
       reply = ""
 
     return reply.substr(reply.indexOf("\r\n\r\n") + 4)
-
-String::capitalize = ->
-  @replace /(?:^|\s)\S/g, (a) ->
-    a.toUpperCase()
 
 esy = new Esy()
