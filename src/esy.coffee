@@ -8,21 +8,18 @@ class Esy
     @color = new Esy.color
 
   listProperties: (obj) ->
-    $.write obj.numProperties
+    @log "Esy.listProperties:"
     for property in [1..obj.numProperties]
       @log property
 
   log: (str) ->
     try $.write "#{str?.toString()}\n"
 
-  dump: (obj, prefix = true) ->
+  dump: (obj) ->
     if obj
-      $.write "\n Dumping: \n --- \n" if prefix
+      @log "Esy.dump:"
       for propertyName, propertyValue of obj
-        if typeof propertyValue is "object"
-          @dump propertyValue, false
-        else
-          @log "#{propertyName}: #{propertyValue?.toString()} \n"
+        @log "#{propertyName}: #{propertyValue?.toString()} \n"
 
 
 class Esy.file
