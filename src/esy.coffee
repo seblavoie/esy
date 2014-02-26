@@ -10,7 +10,7 @@ class Esy
   listProperties: (obj) ->
     @log "Esy.listProperties:"
     for property in [1..obj.numProperties]
-      @log property
+      @log obj[property]
 
   log: (str) ->
     try $.write "#{str?.toString()}\n"
