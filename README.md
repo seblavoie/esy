@@ -6,4 +6,4 @@ Currently being developed.
 
 ## Compile
 
-Use `cake watch` to watch and compile you CoffeeScript.
+Use `cake watch` to watch and compile your CoffeeScript.
