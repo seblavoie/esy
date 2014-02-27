@@ -52,6 +52,7 @@ class Esy.file
     return content
 
   filename: (filepath) ->
+    filepath = filepath.toString()
     filename = filepath.substr filepath.lastIndexOf('/') + 1
     return filename
 
