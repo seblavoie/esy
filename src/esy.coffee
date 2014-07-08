@@ -10,7 +10,7 @@ class Esy
   listProperties: (obj) ->
     @log "Esy.listProperties:"
     for property in [1..obj.numProperties]
-      @log obj[property]
+      @log property
 
   log: (str) ->
     try $.write "#{str?.toString()}\n"
@@ -23,8 +23,6 @@ class Esy
 
 
 class Esy.file
-
-  root: (File($.fileName).parent).path
 
   delete: (filepath) ->
     file = File filepath
@@ -52,12 +50,10 @@ class Esy.file
     return content
 
   filename: (filepath) ->
-    filepath = filepath.toString()
     filename = filepath.substr filepath.lastIndexOf('/') + 1
     return filename
 
 class Esy.ui
-  # Todo
 
 class Esy.color
 
