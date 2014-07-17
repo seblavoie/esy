@@ -137,8 +137,6 @@ class Esy.color
     filename = filepath.substr filepath.lastIndexOf('/') + 1
     return filename
 
-class Esy.ui
-
 class Esy.color
 
   hexToRgb: (hex) ->
