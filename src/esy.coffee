@@ -80,7 +80,7 @@ class Esy.ui
     @panels[label] = @currentRow = @window.add 'panel', @returnGoodUIValues(60, false), label
     return this
 
-  getRow: (label) ->
+  getPanel: (label) ->
     return @panels[label]
 
   addButton: (label, height = 30, offsets = [10, 10, -10, 0]) ->
