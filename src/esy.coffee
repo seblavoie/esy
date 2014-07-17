@@ -48,6 +48,7 @@ class Esy.file
     content = file.read()
     file.close()
     return content
+<<<<<<< HEAD
 
   filename: (filepath) ->
     filename = filepath.substr filepath.lastIndexOf('/') + 1
@@ -133,6 +134,31 @@ class Esy.color
     g = (hex & 0x00ff00) >> 8;
     b = hex & 0xff;
 
+=======
+
+  filename: (filepath) ->
+    filename = filepath.substr filepath.lastIndexOf('/') + 1
+    return filename
+
+class Esy.ui
+
+class Esy.color
+
+  hexToRgb: (hex) ->
+    hex = parseInt(hex,16);
+    r = hex >> 16;
+    g = (hex & 0x00ff00) >> 8;
+    b = hex & 0xff;
+
+    return [r,g,b];
+
+  hexToHsl: (hex) ->
+    hex = parseInt(hex,16);
+    r = hex >> 16;
+    g = (hex & 0x00ff00) >> 8;
+    b = hex & 0xff;
+
+>>>>>>> FETCH_HEAD
     return [r/255,g/255,b/255];
 
 class Esy.http
