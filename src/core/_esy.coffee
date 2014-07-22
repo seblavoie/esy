@@ -13,7 +13,7 @@ class Esy
     source = (new File($.fileName)).parent
     destination = (source.parent).path
     if esy.debug
-      file = esy.file.buildExtendScript "#{source.path}/esy.js", "#{destination}/esy.js"
+      file = esy.file.buildExtendScript "#{source.path}/esy.js", "#{destination}/esy.jsx"
     else
       # Will have to fetch the latest version from github
 

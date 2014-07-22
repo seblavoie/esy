@@ -14,12 +14,14 @@ class EsyFile
     file.close()
     return file
 
-  buildExtendScript: (filepath, destination) ->
+  buildExtendScript: (filepath, destinations) ->
     content = @read filepath
     content = content.replace "esy.debug = true", "esy.debug = false"
     read    = (str, p1) => @read "#{@path filepath}/#{p1}"
     content = content.replace /#include \"(.*)\";/g, read
-    @create "#{destination}x", content
+    if typeof destinations is "string" then destinations = [destinations]
+    for destination in destinations
+      @create "#{destination.toString()}", content
 
   create: (filepath, content = "") ->
     file = File filepath
