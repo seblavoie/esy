@@ -5,6 +5,7 @@
 `#include "../lib/core/_http.js"`
 `#include "../lib/core/_ui.js"`
 
-esy = new Esy()
+esy           = new Esy()
 esy.container = @
+esy.debug     = true
 esy.initialize()

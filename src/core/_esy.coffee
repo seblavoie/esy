@@ -10,9 +10,12 @@ class Esy
     @selfBuild()
 
   selfBuild: () ->
-    destination = ((new File($.fileName)).parent.parent).path
-    file = @file.exists "#{destination}/esy.js"
-    file = esy.file.buildExtendScript "~/Dropbox/_Personnal/code/scripts/toggler/components/esy/lib/esy.js", "#{destination}/esy.js"
+    source = (new File($.fileName)).parent
+    destination = (source.parent).path
+    if esy.debug
+      file = esy.file.buildExtendScript "#{source.path}/esy.js", "#{destination}/esy.js"
+    else
+      # Will have to fetch the latest version from github
 
   listProperties: (obj) ->
     @log "Esy.listProperties:"

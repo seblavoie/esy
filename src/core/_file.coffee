@@ -16,6 +16,7 @@ class EsyFile
 
   buildExtendScript: (filepath, destination) ->
     content = @read filepath
+    content = content.replace "esy.debug = true", "esy.debug = false"
     read    = (str, p1) => @read "#{@path filepath}/#{p1}"
     content = content.replace /#include \"(.*)\";/g, read
     @create "#{destination}x", content
@@ -40,6 +41,10 @@ class EsyFile
     content = file.read()
     file.close()
     return content
+
+  folderName: (filepath) ->
+    folderName = @filename filepath
+    return folderName
 
   filename: (filepath) ->
     filename = filepath.substr filepath.lastIndexOf('/') + 1
