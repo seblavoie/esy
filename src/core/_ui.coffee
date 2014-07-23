@@ -1,17 +1,7 @@
 class EsyUi
 
-  constructor: () ->
-    @sizes        = {}
-    @window       = null
-    @currentPanel = null
-    @panels       = []
-    @rows         = []
-    @buttons      = []
-    @textbox      = []
-
   set: () ->
     window = new EsyUiWindow
-
     return window
 
   show: () ->
@@ -21,12 +11,10 @@ class EsyUi
 class EsyUiWindow
 
   constructor: () ->
-    @sizes =
-      paddingLeft      : 10
-      paddingTop       : 10
-      width            : 300
-      heightIncrement  : 0
-    @element = null
+    @paddingLeft = 10
+    @paddingTop  = 10
+    @width       = 300
+    @element     = null
     @render()
     return this
 
@@ -48,9 +36,9 @@ class EsyUiPanel
 
   render: () ->
     values = [
-      @window.sizes.paddingLeft,
-      @window.sizes.heightIncrement,
-      @window.sizes.width,
+      @window.paddingLeft,
+      @window.paddingTop,
+      @window.width,
       60
     ]
 
@@ -58,58 +46,99 @@ class EsyUiPanel
     return @
 
   addRow: (data) ->
-    new EsyUIWindowRow @, data
+    new EsyUiRow @, data
 
 
-class EsyUIWindowRow
+class EsyUiRow
 
   constructor: (panel, data) ->
     @panel = panel
     @data = data
+
+    @currentPanel = @panel.element
+    @height       = 30
+    @width        = 100
+    @paddingLeft  = 10
+    @paddingTop   = @panel.window.paddingTop + 10
+    @xOffset      = @currentPanel.margins[0]
+    @yOffset      = @currentPanel.margins[1] + @panel.yOffset
+
     @render()
+
+
     return @panel
 
   render: () ->
-    currentPanel = @panel.element
-    height       = 30
-    width        = 100
-    paddingLeft  = 10
-    paddingTop   = 10
-    xOffset      = currentPanel.margins[0]
-    yOffset      = currentPanel.margins[1] + @panel.yOffset
-
-    esy.log "yOffset = #{yOffset}"
-
     for elements in @data
-      esy.log "currentPanel.margins[0] = #{currentPanel.margins[0]}"
       for elementType, element of elements
-        element.height ?= height
-        element.width ?= width
-        values = [
-          paddingLeft + xOffset,
-          paddingTop + yOffset,
-          currentPanel.size[0] * element.width / 100 + xOffset - currentPanel.margins[0],
-          paddingTop + element.height + yOffset
-        ]
-
-
-        xOffset = currentPanel.size[0] * (element.width / 100) + xOffset
-        @panel.yOffset += paddingTop + currentPanel.margins[1] + element.height
-
         switch elementType
-          when "button"
-            @addButton element.label, values
+          when "button" then @addButton element
+          when "textbox" then @addTextbox element
 
-    currentPanel.size[1] += element.height
+    @currentPanel.size[1] += @height
 
     return this
 
-  addButton: (label, values) ->
-    @panel.window.element.add 'button', values, label
+  addButton: (element) ->
+    new EsyUiButton @, element
+
+  addTextbox: (element) ->
+    new EsyUiTextbox @, element
+
+class EsyUiButton
+
+  constructor: (row, data) ->
+    @data = data
+    @row = row
+    @panel = @row.panel
+    @render()
+    return @
+
+  render: () ->
+    @data.height      ?= @row.height
+    @data.width       ?= @row.width
+    @data.paddingLeft ?= 10
+    @data.paddingTop  ?= 10
+
+    values = [
+      @data.paddingLeft + @row.xOffset,
+      @data.paddingTop + @row.yOffset,
+      @panel.element.size[0] * @data.width / 100 + @row.xOffset - @panel.element.margins[0],
+      @data.paddingTop + @data.height + @row.yOffset
+    ]
+
+    @row.xOffset = @panel.element.size[0] * (@data.width / 100) + @row.xOffset
+    @panel.yOffset += @data.paddingTop + @data.height
+
+
+    @panel.window.element.add 'button', values, @data.label
     return this
 
-  getButton: (label) ->
-    return @buttons[label]
+class EsyUiTextbox
 
-  addTextbox: (label, values) ->
-    return @window.add 'editText', values, label
+  constructor: (row, data) ->
+    @data = data
+    @row = row
+    @panel = @row.panel
+    @render()
+    return @
+
+  render: () ->
+    @data.height      ?= @row.height
+    @data.width       ?= @row.width
+    @data.paddingLeft ?= @row.paddingLeft
+    @data.paddingTop  ?= @row.paddingTop
+
+    values = [
+      @data.paddingLeft + @row.xOffset,
+      @data.paddingTop + @row.yOffset,
+      @panel.element.size[0] * @data.width / 100 + @row.xOffset - @panel.element.margins[0],
+      @data.paddingTop + @data.height + @row.yOffset
+    ]
+
+    @row.xOffset = @panel.element.size[0] * (@data.width / 100) + @row.xOffset
+    @panel.yOffset += @data.paddingTop + @panel.element.margins[1] + @data.height
+
+
+    @panel.window.element.add 'editText', values, @data.label
+    return this
