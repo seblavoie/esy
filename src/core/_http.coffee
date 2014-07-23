@@ -1,4 +1,4 @@
-class Esy.http
+class EsyHttp
 
   open: (url) ->
     unless $.os.indexOf("Windows") is -1

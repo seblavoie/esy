@@ -1,90 +1,115 @@
-class Esy.ui
+class EsyUi
 
   constructor: () ->
-    @sizes = {}
-    @window = null
+    @sizes        = {}
+    @window       = null
     @currentPanel = null
-    @panels = []
-    @rows = []
-    @buttons = []
-    @textbox = []
-    @xOffset = 0
-    @yOffset = 0
+    @panels       = []
+    @rows         = []
+    @buttons      = []
+    @textbox      = []
 
-  set: (width = 300, paddingLeft = 10, paddingTop = 10) ->
-    @sizes.paddingLeft      = paddingLeft
-    @sizes.paddingTop       = paddingTop
-    @sizes.width            = width
-    @sizes.heightIncrement  = 0
+  set: () ->
+    window = new EsyUiWindow
 
-    if esy.container instanceof Panel then @window = esy.container
-    else @window = new Window "window {orientation: 'column'}"
-    return this
+    return window
 
   show: () ->
-    if esy.container not instanceof Panel then @window.show()
+    # if esy.container not instanceof Panel then @window.show()
     return this
 
+class EsyUiWindow
+
+  constructor: () ->
+    @sizes =
+      paddingLeft      : 10
+      paddingTop       : 10
+      width            : 300
+      heightIncrement  : 0
+    @element = null
+    @render()
+    return this
+
+  render: () ->
+    if esy.container instanceof Panel then @element = esy.container else @element = new Window "window {orientation: 'row'}"
+
+  addPanel: (data) ->
+    new EsyUiPanel @, data
+
+class EsyUiPanel
+
+  constructor: (window, data) ->
+    @window  = window
+    @element = null
+    @data    = data
+    @yOffset = 0
+    @render()
+    return this
+
+  render: () ->
+    values = [
+      @window.sizes.paddingLeft,
+      @window.sizes.heightIncrement,
+      @window.sizes.width,
+      60
+    ]
+
+    @element = @window.element.add 'panel', values, @data.label
+    return @
+
   addRow: (data) ->
-    height = 0
-    width  = 0
+    new EsyUIWindowRow @, data
 
-    for elements in data
 
+class EsyUIWindowRow
+
+  constructor: (panel, data) ->
+    @panel = panel
+    @data = data
+    @render()
+    return @panel
+
+  render: () ->
+    currentPanel = @panel.element
+    height       = 30
+    width        = 100
+    paddingLeft  = 10
+    paddingTop   = 10
+    xOffset      = currentPanel.margins[0]
+    yOffset      = currentPanel.margins[1] + @panel.yOffset
+
+    esy.log "yOffset = #{yOffset}"
+
+    for elements in @data
+      esy.log "currentPanel.margins[0] = #{currentPanel.margins[0]}"
       for elementType, element of elements
-        values = @returnGoodUIValues element.height ?= 30, element.width ?= 100
+        element.height ?= height
+        element.width ?= width
+        values = [
+          paddingLeft + xOffset,
+          paddingTop + yOffset,
+          currentPanel.size[0] * element.width / 100 + xOffset - currentPanel.margins[0],
+          paddingTop + element.height + yOffset
+        ]
 
-        if height is 0 then height += element.height
+
+        xOffset = currentPanel.size[0] * (element.width / 100) + xOffset
+        @panel.yOffset += paddingTop + currentPanel.margins[1] + element.height
 
         switch elementType
           when "button"
             @addButton element.label, values
 
-    @currentPanel.height += height
+    currentPanel.size[1] += element.height
 
     return this
-
-
-
-  addPanel: (label) ->
-    values = @returnGoodUIValues 60, @sizes.width
-    @panels[label] = @currentPanel = @window.add 'panel', values, label
-    return this
-
-  getPanel: (label) ->
-    return @panels[label]
 
   addButton: (label, values) ->
-    @buttons[label] = @window.add 'button', values, label
+    @panel.window.element.add 'button', values, label
     return this
 
   getButton: (label) ->
     return @buttons[label]
 
-  addTextbox: (label, showLabel = false, height = 30, offsets = [10, 10, -10, 0]) ->
-    @textbox[label] = @window.add 'editText', @returnGoodUIValues(height, false, offsets), ""
-    return this
-
-  getTextbox: (label) ->
-    return @textbox[label]
-
-  returnGoodUIValues: (height, width, adaptSizes = [0,0,0,0]) ->
-    sizes = []
-    i = 0
-    for key, value of @sizes
-      sizes[key] = value + adaptSizes[i]
-      i++
-
-    # xOffset = 0
-
-    values = [
-      sizes.paddingLeft,
-      sizes.paddingTop + @sizes.heightIncrement,
-      sizes.width / (100 / width),
-      sizes.paddingTop + @sizes.heightIncrement + height
-    ]
-
-    # @sizes.heightIncrement += sizes.paddingTop
-    # @sizes.heightIncrement += height if increment is true
-
-    return values
+  addTextbox: (label, values) ->
+    return @window.add 'editText', values, label

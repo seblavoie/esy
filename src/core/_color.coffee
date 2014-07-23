@@ -1,4 +1,4 @@
-class Esy.color
+class EsyColor
 
   hexToRgb: (hex) ->
     hex = parseInt(hex,16);

@@ -1,8 +1,5 @@
 class EsyFile
 
-  constructor: () ->
-    return @
-
   delete: (filepath) ->
     file = File filepath
     file.remove()
@@ -23,7 +20,8 @@ class EsyFile
     for destination in destinations
       @create "#{destination.toString()}", content
 
-  create: (filepath, content = "") ->
+  create: (filepath, content = "", overwrite = true) ->
+    @delete filepath if overwrite
     file = File filepath
     file.open "w"
     file.write content

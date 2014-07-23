@@ -2,10 +2,10 @@ class Esy
 
   initialize: () ->
 
-    @ui    = new Esy.ui
-    @http  = new Esy.http
+    @ui    = new EsyUi
+    @http  = new EsyHttp
     @file  = new EsyFile
-    @color = new Esy.color
+    @color = new EsyColor
 
     @selfBuild()
 
