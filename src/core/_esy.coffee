@@ -7,15 +7,13 @@ class Esy
     @file  = new EsyFile
     @color = new EsyColor
 
-    @selfBuild()
-
-  selfBuild: () ->
-    source = (new File($.fileName)).parent
-    destination = (source.parent).path
-    if esy.debug
-      file = esy.file.buildExtendScript "#{source.path}/esy.js", "#{destination}/esy.jsx"
-    else
+    @selfBuild (new File($.fileName)).parent.parent.path if esy.debug
+    # else
       # Will have to fetch the latest version from github
+
+
+  selfBuild: (path) ->
+    esy.file.buildExtendScript "#{path}/lib/esy.js", ["#{path}/esy.jsx", "#{Folder.appPackage.path}/Scripts/Startup/esy.jsx"]
 
   listProperties: (obj) ->
     @log "Esy.listProperties:"

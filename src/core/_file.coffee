@@ -1,7 +1,7 @@
 class EsyFile
 
   delete: (filepath) ->
-    file = File filepath
+    file = File filepath if File filepath
     file.remove()
 
   append: (filepath, content) ->
@@ -14,8 +14,11 @@ class EsyFile
   buildExtendScript: (filepath, destinations) ->
     content = @read filepath
     content = content.replace "esy.debug = true", "esy.debug = false"
+
     read    = (str, p1) => @read "#{@path filepath}/#{p1}"
+
     content = content.replace /#include \"(.*)\";/g, read
+
     if typeof destinations is "string" then destinations = [destinations]
     for destination in destinations
       @create "#{destination.toString()}", content
@@ -46,7 +49,7 @@ class EsyFile
     folderName = @filename filepath
     return folderName
 
-  filename: (filepath) ->
+  fileName: (filepath) ->
     filename = filepath.substr filepath.lastIndexOf('/') + 1
     return filename
 
