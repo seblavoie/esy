@@ -11,9 +11,6 @@ class EsyUi
 class EsyUiWindow
 
   constructor: () ->
-    @paddingLeft = 10
-    @paddingTop  = 10
-    @width       = 300
     @element     = null
     @render()
     return this
@@ -27,18 +24,24 @@ class EsyUiWindow
 class EsyUiPanel
 
   constructor: (window, data) ->
-    @window  = window
-    @element = null
-    @data    = data
-    @yOffset = 0
+    @window      = window
+    @data        = data
+
+    @paddingLeft = 10
+    @paddingTop  = 10
+    @width       = 300
+    @element     = null
+
+    @yOffset     = 0
+
     @render()
     return this
 
   render: () ->
     values = [
-      @window.paddingLeft,
-      @window.paddingTop,
-      @window.width,
+      @paddingLeft,
+      @paddingTop,
+      @width,
       60
     ]
 
@@ -52,16 +55,15 @@ class EsyUiPanel
 class EsyUiRow
 
   constructor: (panel, data) ->
-    @panel = panel
-    @data = data
+    @panel       = panel
+    @data        = data
 
-    @currentPanel = @panel.element
-    @height       = 30
-    @width        = 100
-    @paddingLeft  = 10
-    @paddingTop   = @panel.window.paddingTop + 10
-    @xOffset      = @currentPanel.margins[0]
-    @yOffset      = @currentPanel.margins[1] + @panel.yOffset
+    @height      = 30
+    @width       = 100
+    @paddingLeft = 10
+    @paddingTop  = @panel.paddingTop + 10
+    @xOffset     = @panel.element.margins[0]
+    @yOffset     = @panel.element.margins[1] + @panel.yOffset
 
     @render()
 
@@ -75,7 +77,7 @@ class EsyUiRow
           when "button" then @addButton element
           when "textbox" then @addTextbox element
 
-    @currentPanel.size[1] += @height
+    @panel.element.size[1] += @height
 
     return this
 
@@ -98,7 +100,7 @@ class EsyUiButton
     @data.height      ?= @row.height
     @data.width       ?= @row.width
     @data.paddingLeft ?= 10
-    @data.paddingTop  ?= 10
+    @data.paddingTop  ?= 0
 
     values = [
       @data.paddingLeft + @row.xOffset,
