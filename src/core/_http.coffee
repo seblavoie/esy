@@ -1,5 +1,8 @@
 class EsyHttp
 
+# ----------------------------------------
+# open
+# ----------------------------------------
   open: (url) ->
     unless $.os.indexOf("Windows") is -1
       url = url.replace(/&/g, "^&")
@@ -8,6 +11,10 @@ class EsyHttp
       command = "open '#{url}'"
     system.callSystem command
 
+
+# ----------------------------------------
+# get
+# ----------------------------------------
   get: (url) ->
     httpPrefix = url.match /http:\/\//
     domain = (if not httpPrefix? then url.split("/")[0] + ":" + port else url.split("/")[2] + ":" + port)

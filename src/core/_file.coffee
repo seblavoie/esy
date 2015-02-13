@@ -1,9 +1,17 @@
 class EsyFile
 
+
+# ----------------------------------------
+# delete
+# ----------------------------------------
   delete: (filepath) ->
     file = File filepath if File filepath
     file.remove()
 
+
+# ----------------------------------------
+# append
+# ----------------------------------------
   append: (filepath, content) ->
     file = File filepath
     file.open "a"
@@ -11,6 +19,10 @@ class EsyFile
     file.close()
     return file
 
+
+# ----------------------------------------
+# buildExtendScript
+# ----------------------------------------
   buildExtendScript: (filepath, destinations) ->
     content = @read filepath
     content = content.replace "esy.debug = true", "esy.debug = false"
@@ -21,8 +33,12 @@ class EsyFile
 
     if typeof destinations is "string" then destinations = [destinations]
     for destination in destinations
-      @create "#{destination.toString()}", content
+      @create "#{destination.toString()}",
 
+       content
+# ----------------------------------------
+# create
+# ----------------------------------------
   create: (filepath, content = "", overwrite = true) ->
     @delete filepath if overwrite
     file = File filepath
@@ -31,6 +47,10 @@ class EsyFile
     file.close()
     return file
 
+
+# ----------------------------------------
+# exists
+# ----------------------------------------
   exists: (filepath) ->
     file = File filepath
     if file.created
@@ -38,6 +58,10 @@ class EsyFile
     else
       return false
 
+
+# ----------------------------------------
+# read
+# ----------------------------------------
   read: (filepath) ->
     file = File filepath
     file.open "r"
@@ -45,14 +69,26 @@ class EsyFile
     file.close()
     return content
 
+
+# ----------------------------------------
+# folderName
+# ----------------------------------------
   folderName: (filepath) ->
     folderName = @filename filepath
     return folderName
 
+
+# ----------------------------------------
+# fileName
+# ----------------------------------------
   fileName: (filepath) ->
     filename = filepath.substr filepath.lastIndexOf('/') + 1
     return filename
 
+
+# ----------------------------------------
+# path
+# ----------------------------------------
   path: (filepath) ->
     filename = filepath.substr 0, filepath.lastIndexOf('/')
     return filename
