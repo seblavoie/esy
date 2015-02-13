@@ -1,5 +1,8 @@
-class Esy.color
+class EsyColor
 
+# ----------------------------------------
+# hexToRgb
+# ----------------------------------------
   hexToRgb: (hex) ->
     hex = parseInt(hex,16);
     r = hex >> 16;
@@ -8,6 +11,10 @@ class Esy.color
 
     return [r,g,b];
 
+
+# ----------------------------------------
+# hexToHsl
+# ----------------------------------------
   hexToHsl: (hex) ->
     hex = parseInt(hex,16);
     r = hex >> 16;
