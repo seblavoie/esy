@@ -20,3 +20,5 @@ class EsyColor
     r = hex >> 16;
     g = (hex & 0x00ff00) >> 8;
     b = hex & 0xff;
+
+    return [r/255,g/255,b/255];
