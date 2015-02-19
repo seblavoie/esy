@@ -16,7 +16,7 @@ class Esy
       @updater = new EsyUpdater
         repo: "seblavoie/esy"
         file: "esy.jsx"
-        version: "v0.0.0"
+        version: "v0.0.2"
         destination: "#{Folder.appPackage.path}/Scripts/startup"
       @updater.checkForUpdate()
 
