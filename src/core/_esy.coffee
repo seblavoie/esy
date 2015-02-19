@@ -13,14 +13,19 @@ class Esy
     if esy.debug
       @selfBuild (new File($.fileName)).parent.parent.path
     else
-      # Will have to fetch the latest version from github
+      @updater = new EsyUpdater
+        repo: "seblavoie/esy"
+        file: "esy.jsx"
+        version: "v0.0.0"
+        destination: "#{Folder.appPackage.path}/Scripts/startup"
+      @updater.checkForUpdate()
 
 
 # ----------------------------------------
 # selfBuild
 # ----------------------------------------
   selfBuild: (path) ->
-    esy.file.buildExtendScript "#{path}/lib/esy.js", ["#{path}/esy.jsx", "#{Folder.appPackage.path}/Scripts/Startup/esy.jsx"]
+    esy.file.buildExtendScript "#{path}/lib/esy.js", ["#{path}/esy.jsx"]
 
 # ----------------------------------------
 # listProperties
@@ -54,3 +59,6 @@ class Esy
         sourceObject[propertyName] = propertyValue
     return sourceObject
 
+
+log = (log) -> esy.log log
+dump = (obj) -> esy.dump obj
