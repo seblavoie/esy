@@ -13,7 +13,6 @@ class Esy
     if esy.debug
       @selfBuild (new File($.fileName)).parent.parent.path
     else
-      @selfBuild (new File($.fileName)).parent.parent.path
       @updater = new EsyUpdater
         repo: "seblavoie/esy"
         file: "esy.jsx"
