@@ -20,7 +20,7 @@ class EsyUpdater
 # ----------------------------------------
   getLatestVersion: () ->
     url      = encodeURIComponent "https://api.github.com/repos/#{@repo}/releases"
-    data     = eval esy.http.get "http://hyle.dev/proxy?url=#{url}&username=#{@username}"
+    data     = eval esy.http.get "http://hyle.io/proxy?url=#{url}&username=#{@username}"
     @data    = data[0]
     @remoteVersion  = @data.tag_name
     return @remoteVersion
@@ -48,7 +48,7 @@ class EsyUpdater
 # ----------------------------------------
   update: () ->
     url = encodeURIComponent "https://raw.githubusercontent.com/#{@repo}/master/#{@file}"
-    content = esy.http.get "http://hyle.dev/proxy?url=#{url}&username=#{@username}"
+    content = esy.http.get "http://hyle.io/proxy?url=#{url}&username=#{@username}"
     esy.file.create "#{@destination}/esy_#{@remoteVersion}.jsx", content
     log "delete #{@destination}/esy_#{@localVersion}.jsx"
     esy.file.delete "#{@destination}/esy_#{@localVersion}.jsx"

@@ -11,5 +11,5 @@ esy = {}
 
 esy           = new Esy()
 esy.container = @
-esy.debug     = false
+esy.debug     = true
 esy.initialize()
