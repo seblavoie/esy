@@ -44,7 +44,7 @@ class Esy
 # ----------------------------------------
 # dump
 # ----------------------------------------
-  dump: (obj, name = null, line = true) ->
+  dump: (obj, name, line = true) ->
     if obj
       name ?= "[#{typeof obj}]"
       @log "\n------------------------" if line
