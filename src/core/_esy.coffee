@@ -44,13 +44,14 @@ class Esy
 # ----------------------------------------
 # dump
 # ----------------------------------------
-  dump: (obj, line = true) ->
+  dump: (obj, name = null, line = true) ->
     if obj
-      @log "Esy.dump:"
-      @log "--------------- \n" if line
+      name ?= "[#{typeof obj}]"
+      @log "\n------------------------" if line
+      @log "Dump of #{name}:\n"
       for propertyName, propertyValue of obj
-        @log "#{propertyName}: #{propertyValue?.toString()} \n"
-      @log "--------------- \n" if line
+        @log "  #{propertyName}: #{propertyValue?.toString()} \n"
+      @log "------------------------" if line
 
 # ----------------------------------------
 # extend
