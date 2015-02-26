@@ -64,4 +64,4 @@ class Esy
 
 
 log = (log) -> esy.log log
-dump = (obj, name, line = true) -> esy.dump obj
+dump = (obj, name, line = true) -> esy.dump obj, name, line
