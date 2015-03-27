@@ -25,7 +25,7 @@ class EsyFile
 # ----------------------------------------
   buildExtendScript: (filepath, destinations) ->
     content = @read filepath
-    content = content.replace "esy.debug = true", "esy.debug = false"
+    content = content.replace "debug = true", "debug = false"
 
     read    = (str, p1) => @read "#{@path filepath}/#{p1}"
 
