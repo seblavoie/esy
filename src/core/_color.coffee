@@ -13,6 +13,17 @@ class EsyColor
 
 
 # ----------------------------------------
+# rgbToHex
+# ----------------------------------------
+  rgbToHex: (rgb) ->
+    componentToHex = (c) ->
+      hex = c.toString(16);
+      if hex.length is 1 then "0" + hex else hex
+
+    return componentToHex(rgb[0]*255) + componentToHex(rgb[1]*255) + componentToHex(rgb[2]*255);
+
+
+# ----------------------------------------
 # hexToHsl
 # ----------------------------------------
   hexToHsl: (hex) ->
