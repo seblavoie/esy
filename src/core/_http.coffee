@@ -29,13 +29,13 @@ class EsyHttp
       conn.close()
     else
       reply = ""
+      true
 
     return reply.substr(reply.indexOf("\r\n\r\n") + 4)
 
 
 # delay = (time, fn, args...) ->
-#   # setTimeout fn, time, args...
-#   app.scheduleTask('function(){alert "okay"}()', time, false)
+#   app.scheduleTask(fn, time, false)
 
 
 

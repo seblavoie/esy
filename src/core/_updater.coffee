@@ -5,25 +5,36 @@ class EsyUpdater
 # ----------------------------------------
   constructor: (opts) ->
     { @repo, @file, @destination } = opts
+
     @localVersion = opts.version
     @username = encodeURIComponent system.userName
     @data
     @remoteVersion
+    @connection
 
 # ----------------------------------------
 # initialize
 # ----------------------------------------
   initialize: () ->
 
+
+
 # ----------------------------------------
-# getVersion
+# makeConnection
 # ----------------------------------------
-  getLatestVersion: () ->
+  makeConnection: () ->
     url      = encodeURIComponent "https://api.github.com/repos/#{@repo}/releases"
     data     = eval esy.http.get "http://hyle.io/proxy?url=#{url}&username=#{@username}"
-    @data    = data[0]
-    @remoteVersion  = @data.tag_name
+    return data
+
+# ----------------------------------------
+# getLatestVersion
+# ----------------------------------------
+  getLatestVersion: () ->
+    @data          = data[0]
+    @remoteVersion = @data.tag_name
     return @remoteVersion
+
 
 # ----------------------------------------
 # checkIfLatest
@@ -37,9 +48,11 @@ class EsyUpdater
 # checkForUpdate
 # ----------------------------------------
   checkForUpdate: () ->
-    if not @checkIfLatest()
-      if confirm "An update is available for #{@repo} (#{@remoteVersion}). Do you want to download the update?"
-        @update()
+    @connection = @makeConnection()
+    if @connection
+      if not @checkIfLatest()
+        if confirm "An update is available for #{@repo} (#{@remoteVersion}). Do you want to download the update?"
+          @update()
     else
       return true
 
