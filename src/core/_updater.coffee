@@ -23,15 +23,15 @@ class EsyUpdater
 # makeConnection
 # ----------------------------------------
   makeConnection: () ->
-    url      = encodeURIComponent "https://api.github.com/repos/#{@repo}/releases"
-    data     = eval esy.http.get "http://hyle.io/proxy?url=#{url}&username=#{@username}"
-    return data
+    url        = encodeURIComponent "https://api.github.com/repos/#{@repo}/releases"
+    connection = eval esy.http.get "http://hyle.io/proxy?url=#{url}&username=#{@username}"
+    return connection
 
 # ----------------------------------------
 # getLatestVersion
 # ----------------------------------------
   getLatestVersion: () ->
-    @data          = data[0]
+    @data          = @connection[0]
     @remoteVersion = @data.tag_name
     return @remoteVersion
 
