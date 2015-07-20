@@ -1,4 +1,3 @@
-`#target "aftereffects-13.0"`
 `#include "../lib/core/_esy.js"`
 `#include "../lib/core/_updater.js"`
 `#include "../lib/core/_color.js"`
