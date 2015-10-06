@@ -34,8 +34,8 @@ class EsyFile
     if typeof destinations is "string" then destinations = [destinations]
     for destination in destinations
       @create "#{destination.toString()}",
-
        content
+
 # ----------------------------------------
 # create
 # ----------------------------------------

@@ -4,6 +4,7 @@
 `#include "../lib/core/_file.js"`
 `#include "../lib/core/_http.js"`
 `#include "../lib/core/_ui.js"`
+`#include "../lib/core/_project.js"`
 
 
 esy = {}
