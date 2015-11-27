@@ -5,11 +5,12 @@ class Esy
 # ----------------------------------------
   initialize: () ->
 
-    @ui      = new EsyUi
-    @http    = new EsyHttp
-    @file    = new EsyFile
-    @project = new EsyProject
-    @color   = new EsyColor
+    @ui          = new EsyUi
+    @http        = new EsyHttp
+    @file        = new EsyFile
+    @color       = new EsyColor
+    @project     = new EsyProject
+    @composition = new EsyComposition
 
     if esy.debug
       @selfBuild (new File($.fileName)).parent.parent.path
