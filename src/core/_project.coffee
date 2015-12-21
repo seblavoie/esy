@@ -20,8 +20,8 @@ class EsyProject
 # filter
 # ----------------------------------------
   filter: (expression, type) ->
+    items = []
     if @hasItems
-      items = []
       for i in [1..app.project.numItems]
         item = app.project.item(i)
         passes = true
@@ -37,4 +37,4 @@ class EsyProject
         items.push item if passes
 
 
-      return items
+    return items
