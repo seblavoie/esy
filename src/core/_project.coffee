@@ -8,13 +8,27 @@ class EsyProject
 
 
 # ----------------------------------------
+# first
+# ----------------------------------------
+  first: (itemName) ->
+    compositions = @find itemName
+    return compositions[0]
+
+
+# ----------------------------------------
 # find
 # ----------------------------------------
   find: (itemName) ->
     if @hasItems
+      compositions = []
       for i in [1..app.project.numItems]
         if app.project.item(i).name is itemName
-          return app.project.item(i)
+          item = app.project.item(i)
+          if item instanceof CompItem
+            compositions.push item
+
+    return compositions
+
 
 # ----------------------------------------
 # filter
