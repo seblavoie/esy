@@ -4,6 +4,7 @@ class EsyColor
 # hexToRgb
 # ----------------------------------------
   hexToRgb: (hex) ->
+    hex = hex.replace("#", "");
     hex = parseInt(hex,16);
     r = hex >> 16;
     g = (hex & 0x00ff00) >> 8;
@@ -27,6 +28,7 @@ class EsyColor
 # hexToHsl
 # ----------------------------------------
   hexToHsl: (hex) ->
+    hex = hex.replace("#", "");
     hex = parseInt(hex,16);
     r = hex >> 16;
     g = (hex & 0x00ff00) >> 8;
